@@ -1,0 +1,79 @@
+name: Create release
+
+on: [workflow_dispatch]
+
+permissions: write-all
+
+jobs:
+  create-release:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Create rpm packages
+        run: |
+          sudo apt install -y createrepo-c
+          REPO_DIR=$PWD
+          TAG=$(git ls-remote --tags https://github.com/ton-blockchain/ton/  | tail -1 | sed -n -e 's/^.*tags\///p')
+          echo "latest TAG = $TAG"
+
+          mkdir ../work; cd ../work
+          curl -L https://github.com/ton-blockchain/ton/releases/latest/download/ton-linux-arm64.zip -o ton-linux-arm64.zip
+          curl -L https://github.com/ton-blockchain/ton/releases/latest/download/ton-linux-x86_64.zip -o ton-linux-x86_64.zip
+          unzip ton-linux-arm64.zip -d ton-linux-arm64
+          unzip ton-linux-x86_64.zip -d ton-linux-x86_64
+          rm -rf ton-linux-arm64/lib ton-linux-arm64/smartcont
+          rm -rf ton-linux-x86_64/lib ton-linux-x86_64/smartcont
+
+          mkdir -p ton-linux-rpm-aarch64/bin ton-linux-rpm-aarch64/lib
+          cp ton-linux-arm64/* ton-linux-rpm-aarch64/bin/
+          mv ton-linux-rpm-aarch64/bin/libtonlibjson.so.0.5 ton-linux-rpm-aarch64/lib/
+          chmod 555 ton-linux-rpm-aarch64/bin/* ton-linux-rpm-aarch64/lib/*
+
+          mkdir -p ton-linux-rpm-x86_64/bin ton-linux-rpm-x86_64/lib
+          cp ton-linux-x86_64/* ton-linux-rpm-x86_64/bin/
+          mv ton-linux-rpm-x86_64/bin/libtonlibjson.so.0.5 ton-linux-rpm-x86_64/lib/
+          chmod 555 ton-linux-rpm-x86_64/bin/* ton-linux-rpm-x86_64/lib/*
+
+          mkdir packages-out
+
+          # rpm          
+          chmod +x $REPO_DIR/packages/rpm.sh
+          $REPO_DIR/packages/rpm.sh packages-out $REPO_DIR/packages/rpm/SPECS/ton.spec $PWD/ton-linux-rpm-x86_64 x86_64 ${TAG:1}
+          $REPO_DIR/packages/rpm.sh packages-out $REPO_DIR/packages/rpm/SPECS/ton.spec $PWD/ton-linux-rpm-aarch64 aarch64 ${TAG:1}
+          cd packages-out/rpm-install
+          createrepo_c .
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      ## RPM release
+      # We can't rely on GH Releases for RPM because RPM repo must have a repodata/ directory and Releases don't support directories
+      - name: Push latest artifacts to current rpm-repo
+        run: |
+          LATEST_TAG=$(git ls-remote --tags https://github.com/ton-blockchain/ton/  | tail -1 | sed -n -e 's/^.*tags\///p')
+          echo "LATEST_TAG $LATEST_TAG"
+          git config user.name "GitHub Actions Bot"
+          git config user.email "<>"
+          git config http.postBuffer 924288000
+          git config http.lowSpeedTime 600
+          git reset --hard origin/main
+          rm -rf rpm
+          cp -r ../work/packages-out/rpm-install rpm
+          
+          # one-by-one, since there is a gh limit of 100 MB upload
+          git add rpm/x86_64/
+          git commit -m "create release x86_64 $LATEST_TAG" || true
+          git push
+          
+          git add rpm/aarch64/
+          git commit -m "create release aarch64 $LATEST_TAG" || true
+          git push
+          
+          git add rpm/repodata/
+          git commit -m "create release repodata $LATEST_TAG" || true
+          git push
+
+          #gh release create --notes "" $LATEST_TAG ./*.tar.gz
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
