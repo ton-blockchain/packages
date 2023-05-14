@@ -37,3 +37,10 @@ sudo bash -c "echo 'deb [trusted=yes] https://github.com/ton-blockchain/packages
 sudo apt update
 sudo apt install ton
 ```
+
+### Install via brew (from [homebrew-repo](https://github.com/ton-blockchain/homebrew-ton))
+#### macOS
+```
+brew tap ton-blockchain/ton
+brew install ton
+```
