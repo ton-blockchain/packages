@@ -1,0 +1,42 @@
+name: Create AUR packages
+
+on: [workflow_dispatch,workflow_call]
+
+permissions: write-all
+
+jobs:
+  create-release:
+    runs-on: ubuntu-22.04
+    env:
+      USER: runner
+      SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: SSH and git setup
+        run: |
+          ssh-agent -a $SSH_AUTH_SOCK > /dev/null
+          ssh-add - <<< "${{ secrets.AUR_REPO_KEY }}"
+          ssh-add -L
+          mkdir -p ~/.ssh
+          echo 'StrictHostKeyChecking accept-new' >> ~/.ssh/config
+          git config --global user.name ghactions
+          git config --global user.email actions@github.com
+
+      - name: Push packages to official TON AUR repo (aur.archlinux.org)
+        run: |
+          TAG=$(git ls-remote --tags https://github.com/ton-blockchain/ton/  | tail -1 | sed -n -e 's/^.*tags\///p')
+          echo "latest TAG = $TAG"
+          sed -i "/\\tpkgver = /c\\\tpkgver = ${TAG:1}" packages/arch/.SRCINFO
+          sed -i "/pkgver=/c\pkgver=${TAG:1}" packages/arch/PKGBUILD
+
+          git clone ssh://aur@aur.archlinux.org/ton-bin.git aur-ton
+          cd aur-ton
+          git rm -rf *
+          cp ../packages/arch/{PKGBUILD,.SRCINFO} .
+          git add .
+          git commit -m "create AUR TON release $TAG" || true
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

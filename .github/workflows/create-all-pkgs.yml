@@ -1,0 +1,23 @@
+name: Create all packages
+
+on: [workflow_dispatch,workflow_call]
+
+permissions: write-all
+
+jobs:
+  call-create-rpm:
+    uses: ./.github/workflows/create-rpm-packages.yml
+    secrets: inherit
+
+  call-create-deb:
+    uses: ./.github/workflows/create-deb-packages.yml
+    secrets: inherit
+    needs: call-create-rpm
+
+  call-create-aur:
+    uses: ./.github/workflows/create-aur-packages.yml
+    secrets: inherit
+
+  call-create-choco:
+    uses: ./.github/workflows/create-choco-packages.yml
+    secrets: inherit
