@@ -1,0 +1,37 @@
+name: Create choco packages
+
+on: [workflow_dispatch,workflow_call]
+
+defaults:
+  run:
+    shell: cmd
+
+jobs:
+  build:
+    runs-on: windows-2019
+
+    steps:
+      - name: Check out current repository
+        uses: actions/checkout@v3
+
+      - name: Set up Cygwin
+        uses: egor-tensin/setup-cygwin@v4
+
+      - name: Build and push the package
+        run: |
+          choco install checksum
+          curl -Ls https://github.com/ton-blockchain/ton/releases/latest/download/ton-win-x86-64.zip -o ton-win-x86-64.zip
+          FOR /F "tokens=*" %%g IN ('checksum -t sha256 -f ton-win-x86-64.zip') do (SET CHECK_SUM=%%g)
+          echo "checksum %CHECK_SUM%"
+          
+          FOR /F "tokens=*" %%g IN ('git ls-remote --tags https://github.com/ton-blockchain/ton/ ^| tail -n 1 ^| sed -n -e "s/^.*tags\///p"') do ( SET TAG=%%g)
+          echo "latest TAG = %TAG%"
+          
+          cd packages\chocolatey
+          
+          sed -i -e "s/\(<version>\).*\(<\/version>\)/<version>%TAG:~1%<\/version>/g" ton.nuspec
+          sed -i -e "s/\(checksum64    = '\).*\('\)/checksum64    = '%CHECK_SUM%'/g" tools\chocolateyinstall.ps1          
+          
+          choco pack
+          choco apikey --api-key "${{ secrets.CHOCOLATEY_API_KEY }}" -source https://push.chocolatey.org/
+          choco push --source https://push.chocolatey.org/

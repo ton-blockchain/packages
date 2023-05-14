@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Do not remove this test for UTF-8: if “Ω” doesn’t appear as greek uppercase omega letter enclosed in quotation marks, you should use an editor that supports UTF-8, not this one. -->
+<package xmlns="http://schemas.microsoft.com/packaging/2015/06/nuspec.xsd">
+  <metadata>
+    <id>ton</id>
+    <version>v2023.04</version>
+    <packageSourceUrl>https://github.com/ton-blockchain/ton</packageSourceUrl>
+    <owners>neodiX</owners>
+
+    <title>TON Windows x86-64 artifacts</title>
+    <authors>TON Foundation</authors>
+    <projectUrl>https://github.com/ton-blockchain/ton</projectUrl>
+    <iconUrl>https://ton.org/download/ton_symbol.svg</iconUrl>
+    <licenseUrl>https://raw.githubusercontent.com/ton-blockchain/ton/master/LICENSE.LGPL</licenseUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <tags>ton blockchain</tags>
+    <summary>The Open Network artifacts</summary>
+    <description><![CDATA[TON is a fully decentralized layer-1 blockchain designed by Telegram to onboard billions of users.]]></description>
+    <releaseNotes>https://raw.githubusercontent.com/ton-blockchain/ton/master/Changelog.md</releaseNotes>
+  </metadata>
+  <files>
+    <file src="tools\**" target="bin" />
+  </files>
+</package>
