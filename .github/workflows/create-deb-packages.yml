@@ -20,8 +20,8 @@ jobs:
           mkdir ../work; cd ../work
           curl -L https://github.com/ton-blockchain/ton/releases/latest/download/ton-linux-arm64.zip -o ton-linux-arm64.zip
           curl -L https://github.com/ton-blockchain/ton/releases/latest/download/ton-linux-x86_64.zip -o ton-linux-amd64.zip
-          unzip ton-linux-arm64.zip -d ton-linux-arm64
-          unzip ton-linux-amd64.zip -d ton-linux-amd64
+          unzip -qq ton-linux-arm64.zip -d ton-linux-arm64
+          unzip -qq ton-linux-amd64.zip -d ton-linux-amd64
           rm -rf ton-linux-arm64/lib ton-linux-arm64/smartcont
           rm -rf ton-linux-amd64/lib ton-linux-amd64/smartcont
 
@@ -48,6 +48,7 @@ jobs:
           cd $REPO_DIR/packages/deb
           cp ../../../work/packages-out/deb-install/ton_amd64.deb .
           cp ../../../work/packages-out/deb-install/ton_arm64.deb .
+          chmod +x ./repack.sh
           ./repack.sh ton_amd64.deb
           ./repack.sh ton_arm64.deb
           
