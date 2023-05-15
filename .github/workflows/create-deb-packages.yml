@@ -45,10 +45,12 @@ jobs:
           apt-ftparchive release . > Release
           
           cd $REPO_DIR
+          chmod 777 ../work/packages-out/deb-install/*
           gh release upload --clobber $TAG \
-            ../work/packages-out/deb-install/Packages \ 
+            ../work/packages-out/deb-install/Packages \
             ../work/packages-out/deb-install/Release \
             ../work/packages-out/deb-install/ton_amd64.deb \
             ../work/packages-out/deb-install/ton_arm64.deb
+
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
