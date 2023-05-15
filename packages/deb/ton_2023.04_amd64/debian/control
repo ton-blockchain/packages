@@ -1,0 +1,11 @@
+Source: ton
+Priority: optional
+Maintainer: TON Foundation <neodix@ton.org>
+Standards-Version: 2023.04
+Build-Depends: debhelper (>= 9), autotools-dev, dh-autoreconf, debhelper-compat (= 11)
+Section: blockchain
+
+Package: ton
+Architecture: amd64 
+Description: The Open Network
+   Ulta-fast
