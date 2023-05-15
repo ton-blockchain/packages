@@ -1,10 +1,12 @@
 #!/bin/bash
 
+set -x
+set -e
+
 DEBPACKAGE="${1%.deb}"
 
 [[ -z "$1" ]] && echo "Usage: $0 <package.deb>" && exit 1
 
-set -e
 ar x $DEBPACKAGE.deb
 zstd -d < control.tar.zst | xz > control.tar.xz
 zstd -d < data.tar.zst | xz > data.tar.xz
