@@ -44,15 +44,15 @@ jobs:
           dpkg-scanpackages -a arm64 . >> Packages
           apt-ftparchive release . > Release
 
-          # repack packages for debian
-          cd $REPO_DIR/packages/deb
-          ls ../../../work/packages-out/deb-install
-          cp ../../../work/packages-out/deb-install/ton_amd64.deb .
-          cp ../../../work/packages-out/deb-install/ton_arm64.deb .
-          ls
-          chmod +x ./repack.sh
-          ./repack.sh ton_amd64.deb
-          ./repack.sh ton_arm64.deb
+#          # repack packages for debian
+#          cd $REPO_DIR/packages/deb
+#          ls ../../../work/packages-out/deb-install
+#          cp ../../../work/packages-out/deb-install/ton_amd64.deb .
+#          cp ../../../work/packages-out/deb-install/ton_arm64.deb .
+#          ls
+#          chmod +x ./repack.sh
+#          ./repack.sh ton_amd64.deb
+#          ./repack.sh ton_arm64.deb
           
           cd $REPO_DIR
           gh release upload --clobber $TAG \

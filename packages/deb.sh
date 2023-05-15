@@ -17,5 +17,5 @@ sed -i s/ARCH/"$PACKAGE_ARCH"/ "$DEB_BUILD_PATH"/DEBIAN/control
 sed -i s/VERSION/"$PACKAGE_VERSION"/ "$DEB_BUILD_PATH"/DEBIAN/control
 mkdir "$DEB_BUILD_PATH"/usr
 cp -r -L "$NIX_RESULT_PATH"/* "$DEB_BUILD_PATH"/usr
-dpkg-deb --build -Zgzip "$DEB_BUILD_PATH"
+dpkg-deb --build -Zxz "$DEB_BUILD_PATH"
 cp "$BUILD_PATH"/deb-build/*.deb "$DEB_INSTALL_PATH"
