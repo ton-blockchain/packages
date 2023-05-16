@@ -26,34 +26,25 @@ jobs:
           cd packages/deb
 
           DEB_DIR=$PWD
-        
-          curl -Ls https://github.com/ton-blockchain/ton/releases/latest/download/ton-linux-arm64.zip -o ton-linux-arm64.zip
-          curl -Ls https://github.com/ton-blockchain/ton/releases/latest/download/ton-linux-x86_64.zip -o ton_linux-amd64.zip
-          unzip -qq ton-linux-arm64.zip -d ton-linux-arm64
-          unzip -qq ton-linux-amd64.zip -d ton-linux-amd64
-          rm -rf ton-linux-arm64/lib ton-linux-arm64/smartcont
+          
+          curl -Ls https://github.com/ton-blockchain/ton/releases/latest/download/ton-linux-x86_64.zip -o ton-linux-amd64.zip          
+          unzip -qq ton-linux-amd64.zip -d ton-linux-amd64          
           rm -rf ton-linux-amd64/lib ton-linux-amd64/smartcont
-
-          mkdir -p ton-linux-deb-arm64/bin ton-linux-deb-arm64/lib
-          cp ton-linux-arm64/* ton-linux-deb-arm64/bin/          
-          mv ton-linux-deb-arm64/bin/libtonlibjson.so.0.5 ton-linux-deb-arm64/lib/
-          chmod 555 ton-linux-deb-arm64/bin/* ton-linux-deb-arm64/lib/*
-          tar -cvf ton_${TAG:1}.orig.tar.gz -C ton-linux-deb-arm64 .
-
           mkdir -p ton-linux-deb-amd64/bin ton-linux-deb-amd64/lib
           cp ton-linux-amd64/* ton-linux-deb-amd64/bin/
           mv ton-linux-deb-amd64/bin/libtonlibjson.so.0.5 ton-linux-deb-amd64/lib/
           chmod 555 ton-linux-deb-amd64/bin/* ton-linux-deb-amd64/lib/*
-          tar -cvf ton_${TAG:1}.orig.tar.gz -C ton-linux-deb-amd64 .
           
-          find ./ -type f -exec sed -i -e 's/VERSION/${TAG:1}/g' {} \;
-          
-          cat debian/changelog
-          
-          mkdir ton_${TAG:1}; cd ton_${TAG:1};
-          
-          cp -R ../debian .
+          tar -czvf ton_${TAG:1}.orig.tar.gz -C ton-linux-deb-amd64 .
 
-          debuild -sa -Zxz -S -kDA58A5F65D5236A0C8FD9A54AF03339AD20F1920
+          mkdir ton_${TAG:1}; cd ton_${TAG:1};          
+          cp -R ../debian .
+          find ./ -type f -exec sed -i -e "s/VERSION/${TAG:1}/g" {} \;          
+          cat debian/changelog
+
+          sed -i 's/ARCH/amd64/g' debian/control
+          mkdir debian/usr
+          cp -R ../ton-linux-deb-amd64/* debian/usr/
           
-          ls ..
+          debuild -sa -Zxz -S -kDA58A5F65D5236A0C8FD9A54AF03339AD20F1920
+          dput ppa:ton-foundation/ppa ../ton_2023.04-1_source.changes
