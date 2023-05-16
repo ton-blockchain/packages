@@ -1,0 +1,59 @@
+name: Create deb ppa packages
+
+on: [workflow_dispatch,workflow_call]
+
+permissions: write-all
+
+jobs:
+  create-release:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Import GPG Key
+        uses: crazy-max/ghaction-import-gpg@v1
+        env:
+          GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+          PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+
+      - name: Create deb packages
+        run: |
+          REPO_DIR=$PWD
+          TAG=$(git ls-remote --tags https://github.com/ton-blockchain/ton/  | tail -1 | sed -n -e 's/^.*tags\///p')
+          echo "latest TAG = $TAG"
+
+          cd packages/deb
+
+          DEB_DIR=$PWD
+        
+          curl -Ls https://github.com/ton-blockchain/ton/releases/latest/download/ton-linux-arm64.zip -o ton-linux-arm64.zip
+          curl -Ls https://github.com/ton-blockchain/ton/releases/latest/download/ton-linux-x86_64.zip -o ton_linux-amd64.zip
+          unzip -qq ton-linux-arm64.zip -d ton-linux-arm64
+          unzip -qq ton-linux-amd64.zip -d ton-linux-amd64
+          rm -rf ton-linux-arm64/lib ton-linux-arm64/smartcont
+          rm -rf ton-linux-amd64/lib ton-linux-amd64/smartcont
+
+          mkdir -p ton-linux-deb-arm64/bin ton-linux-deb-arm64/lib
+          cp ton-linux-arm64/* ton-linux-deb-arm64/bin/          
+          mv ton-linux-deb-arm64/bin/libtonlibjson.so.0.5 ton-linux-deb-arm64/lib/
+          chmod 555 ton-linux-deb-arm64/bin/* ton-linux-deb-arm64/lib/*
+          tar -cvf ton_${TAG:1}.orig.tar.gz -C ton-linux-deb-arm64 .
+
+          mkdir -p ton-linux-deb-amd64/bin ton-linux-deb-amd64/lib
+          cp ton-linux-amd64/* ton-linux-deb-amd64/bin/
+          mv ton-linux-deb-amd64/bin/libtonlibjson.so.0.5 ton-linux-deb-amd64/lib/
+          chmod 555 ton-linux-deb-amd64/bin/* ton-linux-deb-amd64/lib/*
+          tar -cvf ton_${TAG:1}.orig.tar.gz -C ton-linux-deb-amd64 .
+          
+          find ./ -type f -exec sed -i -e 's/VERSION/${TAG:1}/g' {} \;
+          
+          cat debian/changelog
+          
+          mkdir ton_${TAG:1}; cd ton_${TAG:1};
+          
+          cp -R ../debian .
+
+          debuild -sa -Zxz -S -kDA58A5F65D5236A0C8FD9A54AF03339AD20F1920
+          
+          ls ..

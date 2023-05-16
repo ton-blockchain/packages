@@ -1,5 +1,5 @@
-ton (2023.04) UNRELEASED; urgency=medium
+ton (VERSION) jammy; urgency=medium
 
-  * Initial release. 
+  * Release VERSION.
 
  -- neodix <neodix@ton.org>  Mon, 15 May 2023 20:26:47 +0200
