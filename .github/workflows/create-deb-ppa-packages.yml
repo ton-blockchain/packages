@@ -20,31 +20,63 @@ jobs:
       - name: Create deb packages
         run: |
           REPO_DIR=$PWD
-          TAG=$(git ls-remote --tags https://github.com/ton-blockchain/ton/  | tail -1 | sed -n -e 's/^.*tags\///p')
-          echo "latest TAG = $TAG"
+          TAG=$(git ls-remote --tags https://github.com/ton-blockchain/ton/  | tail -1 | sed -n -e 's/^.*tags\///p')          
+          VERSION=${TAG:1}.5001
+          REVISION_AMD64=1
+          REVISION_ARM64=2
+          echo "latest TAG = $TAG, VERSION=$VERSION"
 
           cd packages/deb
 
           DEB_DIR=$PWD
-          
+
           curl -Ls https://github.com/ton-blockchain/ton/releases/latest/download/ton-linux-x86_64.zip -o ton-linux-amd64.zip          
-          unzip -qq ton-linux-amd64.zip -d ton-linux-amd64          
+          unzip -qq ton-linux-amd64.zip -d ton-linux-amd64
           rm -rf ton-linux-amd64/lib ton-linux-amd64/smartcont
-          mkdir -p ton-linux-deb-amd64/bin ton-linux-deb-amd64/lib
+          mkdir -p ton-linux-deb-amd64/{bin,lib}
           cp ton-linux-amd64/* ton-linux-deb-amd64/bin/
           mv ton-linux-deb-amd64/bin/libtonlibjson.so.0.5 ton-linux-deb-amd64/lib/
-          chmod 555 ton-linux-deb-amd64/bin/* ton-linux-deb-amd64/lib/*
+          chmod 555 ton-linux-deb-amd64/{bin,lib}/* 
           
-          tar -czvf ton_${TAG:1}.orig.tar.gz -C ton-linux-deb-amd64 .
+          curl -Ls https://github.com/ton-blockchain/ton/releases/latest/download/ton-linux-arm64.zip -o ton-linux-arm64.zip
+          unzip -qq ton-linux-arm64.zip -d ton-linux-arm64
+          rm -rf ton-linux-arm64/lib ton-linux-arm64/smartcont
+          mkdir -p ton-linux-deb-arm64/{bin,lib}
+          cp ton-linux-arm64/* ton-linux-deb-arm64/bin/
+          mv ton-linux-deb-arm64/bin/libtonlibjson.so.0.5 ton-linux-deb-arm64/lib/
+          chmod 555 ton-linux-deb-arm64/{bin,lib}/*
+          
+          mkdir -p both/{amd64,arm64}
+          cp -R ton-linux-deb-amd64/* both/amd64/
+          cp -R ton-linux-deb-arm64/* both/arm64/
+          tar -czvf ton_${VERSION}.orig.tar.gz -C both .
 
-          mkdir ton_${TAG:1}; cd ton_${TAG:1};          
+          mkdir ton_{amd64,arm64}
+          
+          cd ton_amd64;    
           cp -R ../debian .
-          find ./ -type f -exec sed -i -e "s/VERSION/${TAG:1}/g" {} \;          
-          cat debian/changelog
+          sed -i "s/REVISION/${VERSION}-${REVISION_AMD64}/g" debian/changelog
+          sed -i "s/VERSION/${VERSION}/g" debian/control
+          sed -i "s/ARCH/amd64/g" debian/control
 
-          sed -i 's/ARCH/amd64/g' debian/control
+          cat debian/{changelog,control}
           mkdir debian/usr
           cp -R ../ton-linux-deb-amd64/* debian/usr/
           
           debuild -sa -Zxz -S -kDA58A5F65D5236A0C8FD9A54AF03339AD20F1920
-          dput ppa:ton-foundation/ppa ../ton_2023.04-1_source.changes
+          dput ppa:ton-foundation/ppa ../ton_${VERSION}-${REVISION_AMD64}_source.changes
+
+          cd ..
+          cd ton_${VERSION_ARM64}_arm64
+          cp -R ../debian .
+          sed -i "s/REVISION/${VERSION}-${REVISION_AMD64}/g" debian/changelog
+          sed -i "s/VERSION/${VERSION}/g" debian/control
+          sed -i "s/ARCH/arm64/g" debian/control
+          
+          cat debian/{changelog,control}
+
+          mkdir debian/usr
+          cp -R ../ton-linux-deb-arm64/* debian/usr/
+          
+          debuild -sa -Zxz -S -kDA58A5F65D5236A0C8FD9A54AF03339AD20F1920
+          dput ppa:ton-foundation/ppa ../ton_${VERSION}-${REVISION_ARM64}_source.changes
