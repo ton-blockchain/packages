@@ -22,8 +22,8 @@ jobs:
           REPO_DIR=$PWD
           TAG=$(git ls-remote --tags https://github.com/ton-blockchain/ton/  | tail -1 | sed -n -e 's/^.*tags\///p')
           DATE=$(date -R)
-          VERSION=${TAG:1}.7001
-          REVISION=1
+          VERSION=${TAG:1}.6001
+          REVISION=6
           echo "latest TAG = $TAG, VERSION=$VERSION, DATE=$DATE"
 
           cd packages/deb
@@ -49,11 +49,13 @@ jobs:
           mkdir -p both/{amd64,arm64}
           cp -R ton-linux-deb-amd64/* both/amd64/
           cp -R ton-linux-deb-arm64/* both/arm64/
-          tar -czvf ton_${VERSION}.orig.tar.gz -C both .
+          tar -czvf ton-${VERSION}.tar.gz -C both .
+          ln -s ton-${VERSION}.tar.gz ton_${VERSION}.orig.tar.gz
 
           mkdir ton_$VERSION
 
           cd ton_$VERSION
+          
           cp -R ../debian .
           sed -i "s/REVISION/${VERSION}-${REVISION}/g" debian/changelog
           sed -i "s/VERSION/${VERSION}/g" debian/changelog
