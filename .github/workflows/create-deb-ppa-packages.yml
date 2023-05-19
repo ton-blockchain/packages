@@ -67,5 +67,5 @@ jobs:
           sed -i "s/DATE/${DATE}/g" debian/changelog          
           cat debian/{changelog,control}
 
-          debuild -sa -Zxz -S -kDA58A5F65D5236A0C8FD9A54AF03339AD20F1920
+          debuild -sa -S -kDA58A5F65D5236A0C8FD9A54AF03339AD20F1920
           dput ppa:ton-foundation/ppa ../ton_${VERSION}-${REVISION}_source.changes
