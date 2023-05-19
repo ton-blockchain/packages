@@ -52,10 +52,10 @@ jobs:
           tar -czvf ton-${VERSION}.tar.gz -C both .
           ln -s ton-${VERSION}.tar.gz ton_${VERSION}.orig.tar.gz
 
-          mkdir ton_$VERSION
+          mkdir ton-$VERSION
 
-          cd ton_$VERSION
-          
+          cd ton-$VERSION
+
           cp -R ../debian .
           sed -i "s/REVISION/${VERSION}-${REVISION}/g" debian/changelog
           sed -i "s/VERSION/${VERSION}/g" debian/changelog
