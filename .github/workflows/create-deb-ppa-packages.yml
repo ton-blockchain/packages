@@ -17,6 +17,11 @@ jobs:
           GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
           PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
 
+      - name: Install system packages
+        run: |
+          sudo apt install -y devscripts apt-utils
+
+
       - name: Create deb packages
         run: |
           REPO_DIR=$PWD
