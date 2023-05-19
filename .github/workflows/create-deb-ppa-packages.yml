@@ -27,8 +27,8 @@ jobs:
           REPO_DIR=$PWD
           TAG=$(git ls-remote --tags https://github.com/ton-blockchain/ton/  | tail -1 | sed -n -e 's/^.*tags\///p')
           DATE=$(date -R)
-          VERSION=${TAG:1}.6001
-          REVISION=7
+          VERSION=${TAG:1}.7001
+          REVISION=1
           echo "latest TAG = $TAG, VERSION=$VERSION, DATE=$DATE"
 
           cd packages/deb
