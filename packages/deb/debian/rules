@@ -9,7 +9,7 @@ DEB_BUILD_ARCH ?=$(shell dpkg-architecture -qDEB_BUILD_ARCH)
 override_dh_strip:
 
 override_dh_builddeb:
-    dh_builddeb -- -Zxz -Sextreme -z9
+	dh_builddeb -- -Zxz -Sextreme -z9
 
 override_dh_install:
 	install -d debian/ton/usr
