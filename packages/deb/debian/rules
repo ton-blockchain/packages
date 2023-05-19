@@ -1,3 +1,14 @@
-#!/usr/bin/make -f  
-%:  
+#!/usr/bin/make -f
+export DH_VERBOSE = 1
+
+DEB_BUILD_ARCH ?=$(shell dpkg-architecture -qDEB_BUILD_ARCH)
+
+%:
 	dh $@
+
+override_dh_strip:
+
+override_dh_install:
+	install -d debian/ton/usr
+	cp --reflink=auto -a ./${DEB_BUILD_ARCH}/bin debian/ton/usr/
+	cp --reflink=auto -a ./${DEB_BUILD_ARCH}/lib debian/ton/usr/
