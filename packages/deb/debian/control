@@ -1,11 +1,15 @@
 Source: ton
-Priority: optional
-Maintainer: TON Foundation <neodix@ton.org>
-Standards-Version: VERSION
-Build-Depends: debhelper (>= 9), autotools-dev, dh-autoreconf, debhelper-compat (= 11)
 Section: devel
+Priority: optional
+Maintainer: neodix <neodix@ton.org>
+Build-Depends: debhelper-compat (= 12)
+Standards-Version: 4.5.0
+Homepage: https://ton.org/
 
 Package: ton
-Architecture: ARCH
+Architecture: any
+Multi-Arch: foreign
+Depends: ${misc:Depends}, ${shlibs:Depends}
+
 Description: TON is a fully decentralized layer-1 blockchain designed by Telegram to onboard billions of users.
-   https://ton.org
+   Sources pulled and repaced from https://github.com/ton-blockchain/ton/releases

@@ -20,11 +20,11 @@ jobs:
       - name: Create deb packages
         run: |
           REPO_DIR=$PWD
-          TAG=$(git ls-remote --tags https://github.com/ton-blockchain/ton/  | tail -1 | sed -n -e 's/^.*tags\///p')          
-          VERSION=${TAG:1}.5001
-          REVISION_AMD64=1
-          REVISION_ARM64=2
-          echo "latest TAG = $TAG, VERSION=$VERSION"
+          TAG=$(git ls-remote --tags https://github.com/ton-blockchain/ton/  | tail -1 | sed -n -e 's/^.*tags\///p')
+          DATE=$(date -R)
+          VERSION=${TAG:1}.7001
+          REVISION=1
+          echo "latest TAG = $TAG, VERSION=$VERSION, DATE=$DATE"
 
           cd packages/deb
 
@@ -37,7 +37,7 @@ jobs:
           cp ton-linux-amd64/* ton-linux-deb-amd64/bin/
           mv ton-linux-deb-amd64/bin/libtonlibjson.so.0.5 ton-linux-deb-amd64/lib/
           chmod 555 ton-linux-deb-amd64/{bin,lib}/* 
-          
+
           curl -Ls https://github.com/ton-blockchain/ton/releases/latest/download/ton-linux-arm64.zip -o ton-linux-arm64.zip
           unzip -qq ton-linux-arm64.zip -d ton-linux-arm64
           rm -rf ton-linux-arm64/lib ton-linux-arm64/smartcont
@@ -45,38 +45,20 @@ jobs:
           cp ton-linux-arm64/* ton-linux-deb-arm64/bin/
           mv ton-linux-deb-arm64/bin/libtonlibjson.so.0.5 ton-linux-deb-arm64/lib/
           chmod 555 ton-linux-deb-arm64/{bin,lib}/*
-          
+
           mkdir -p both/{amd64,arm64}
           cp -R ton-linux-deb-amd64/* both/amd64/
           cp -R ton-linux-deb-arm64/* both/arm64/
           tar -czvf ton_${VERSION}.orig.tar.gz -C both .
 
-          mkdir ton_{amd64,arm64}
-          
-          cd ton_amd64;    
-          cp -R ../debian .
-          sed -i "s/REVISION/${VERSION}-${REVISION_AMD64}/g" debian/changelog
-          sed -i "s/VERSION/${VERSION}/g" debian/control
-          sed -i "s/ARCH/amd64/g" debian/control
+          mkdir ton_$VERSION
 
-          cat debian/{changelog,control}
-          mkdir debian/usr
-          cp -R ../ton-linux-deb-amd64/* debian/usr/
-          
-          debuild -sa -Zxz -S -kDA58A5F65D5236A0C8FD9A54AF03339AD20F1920
-          dput ppa:ton-foundation/ppa ../ton_${VERSION}-${REVISION_AMD64}_source.changes
-
-          cd ..
-          cd ton_${VERSION_ARM64}_arm64
+          cd ton_$VERSION
           cp -R ../debian .
-          sed -i "s/REVISION/${VERSION}-${REVISION_AMD64}/g" debian/changelog
-          sed -i "s/VERSION/${VERSION}/g" debian/control
-          sed -i "s/ARCH/arm64/g" debian/control
-          
+          sed -i "s/REVISION/${VERSION}-${REVISION}/g" debian/changelog
+          sed -i "s/VERSION/${VERSION}/g" debian/changelog
+          sed -i "s/DATE/${DATE}/g" debian/changelog          
           cat debian/{changelog,control}
 
-          mkdir debian/usr
-          cp -R ../ton-linux-deb-arm64/* debian/usr/
-          
           debuild -sa -Zxz -S -kDA58A5F65D5236A0C8FD9A54AF03339AD20F1920
-          dput ppa:ton-foundation/ppa ../ton_${VERSION}-${REVISION_ARM64}_source.changes
+          dput ppa:ton-foundation/ppa ../ton_${VERSION}-${REVISION}_source.changes
