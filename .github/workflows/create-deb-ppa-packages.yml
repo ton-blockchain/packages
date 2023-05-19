@@ -19,8 +19,8 @@ jobs:
 
       - name: Install system packages
         run: |
-          sudo apt install -y devscripts apt-utils
-
+          sudo apt update
+          sudo apt install -y devscripts apt-utils debhelper-compat
 
       - name: Create deb packages
         run: |
