@@ -1,5 +1,6 @@
 name: Create deb ppa packages
-
+# Creates deb artifacts of amd64 and arm64 architecture for selected platforms.
+# Account at launchpad.net defines which platforms to target.
 on: [workflow_dispatch,workflow_call]
 
 permissions: write-all
@@ -26,8 +27,9 @@ jobs:
         run: |
           REPO_DIR=$PWD
           TAG=$(git ls-remote --tags https://github.com/ton-blockchain/ton/  | tail -1 | sed -n -e 's/^.*tags\///p')
+          # TAG=$(echo $TAG | sed  s'/-/.100/') // TODO uncomment with next release
           DATE=$(date -R)
-          VERSION=${TAG:1}.7001
+          VERSION=${TAG:1}.8001 # TODO remove .8000 with next release
           REVISION=1
           echo "latest TAG = $TAG, VERSION=$VERSION, DATE=$DATE"
 
