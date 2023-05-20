@@ -33,9 +33,8 @@ choco install ton
 ### Install deb (apt)
 #### Debian, Ubuntu, Linux Mint...
 ```
-sudo bash -c "echo 'deb [trusted=yes] https://github.com/ton-blockchain/packages/releases/latest/download ./' > /etc/apt/sources.list.d/10-ton.list"
+sudo add-apt-repository ppa:ton-foundation/ppa
 sudo apt update
-sudo apt install ton
 ```
 
 ### Install via brew (from [homebrew-repo](https://github.com/ton-blockchain/homebrew-ton))
