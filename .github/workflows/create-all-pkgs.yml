@@ -10,9 +10,8 @@ jobs:
     secrets: inherit
 
   call-create-deb:
-    uses: ./.github/workflows/create-deb-packages.yml
+    uses: ./.github/workflows/create-deb-ppa-packages.yml
     secrets: inherit
-    needs: call-create-rpm
 
   call-create-aur:
     uses: ./.github/workflows/create-aur-packages.yml

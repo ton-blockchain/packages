@@ -1,5 +1,6 @@
 name: Create deb packages
-
+# Creates deb packages for arm64 and amd64 architectures and stores them in current repository release.
+# Replaced with deb-ppa packages which are store in PPA repository.
 on: [workflow_dispatch,workflow_call]
 
 permissions: write-all
