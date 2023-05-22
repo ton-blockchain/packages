@@ -15,7 +15,8 @@ jobs:
         run: |
           sudo apt install -y createrepo-c
           REPO_DIR=$PWD
-          TAG=$(git ls-remote --tags https://github.com/ton-blockchain/ton/  | tail -1 | sed -n -e 's/^.*tags\///p')          
+          #TAG=$(git ls-remote --tags https://github.com/ton-blockchain/ton/  | tail -1 | sed -n -e 's/^.*tags\///p')
+          TAG="v2023.05-1"
           TAG=$(echo $TAG | sed  s'/-/./')
           echo "latest TAG = $TAG"
 
@@ -24,18 +25,18 @@ jobs:
           curl -Ls https://github.com/ton-blockchain/ton/releases/latest/download/ton-linux-x86_64.zip -o ton-linux-x86_64.zip
           unzip -qq ton-linux-arm64.zip -d ton-linux-arm64
           unzip -qq ton-linux-x86_64.zip -d ton-linux-x86_64
-          rm -rf ton-linux-arm64/lib ton-linux-arm64/smartcont
-          rm -rf ton-linux-x86_64/lib ton-linux-x86_64/smartcont
+          rm -rf ton-linux-arm64/{lib,smartcont}
+          rm -rf ton-linux-x86_64/{lib,smartcont}
 
-          mkdir -p ton-linux-rpm-aarch64/bin ton-linux-rpm-aarch64/lib
+          mkdir -p ton-linux-rpm-aarch64/{bin,lib}
           cp ton-linux-arm64/* ton-linux-rpm-aarch64/bin/
           mv ton-linux-rpm-aarch64/bin/libtonlibjson.so.0.5 ton-linux-rpm-aarch64/lib/
-          chmod 555 ton-linux-rpm-aarch64/bin/* ton-linux-rpm-aarch64/lib/*
+          chmod 555 ton-linux-rpm-aarch64/{bin,lib}/*
 
-          mkdir -p ton-linux-rpm-x86_64/bin ton-linux-rpm-x86_64/lib
+          mkdir -p ton-linux-rpm-x86_64/{bin,lib}
           cp ton-linux-x86_64/* ton-linux-rpm-x86_64/bin/
           mv ton-linux-rpm-x86_64/bin/libtonlibjson.so.0.5 ton-linux-rpm-x86_64/lib/
-          chmod 555 ton-linux-rpm-x86_64/bin/* ton-linux-rpm-x86_64/lib/*
+          chmod 555 ton-linux-rpm-x86_64/{bin,lib}/*
           mkdir ton-linux-x86_64-tmp
           cp -R ton-linux-rpm-x86_64/* ton-linux-x86_64-tmp        
           tar -czvf ton-linux-x86-64.tar.gz -C ton-linux-x86_64-tmp .
@@ -56,7 +57,8 @@ jobs:
       # We can't rely on GH Releases for RPM because RPM repo must have a repodata/ directory and Releases don't support directories
       - name: Push latest artifacts to current rpm-repo
         run: |
-          TAG=$(git ls-remote --tags https://github.com/ton-blockchain/ton/  | tail -1 | sed -n -e 's/^.*tags\///p')
+          #TAG=$(git ls-remote --tags https://github.com/ton-blockchain/ton/  | tail -1 | sed -n -e 's/^.*tags\///p')
+          TAG="v2023.05-1"
           echo "latest TAG $TAG"
           git config user.name "GitHub Actions Bot"
           git config user.email "<>"
