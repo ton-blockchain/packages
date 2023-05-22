@@ -35,6 +35,7 @@ choco install ton
 ```
 sudo add-apt-repository ppa:ton-foundation/ppa
 sudo apt update
+sudo apt install ton
 ```
 
 ### Install via brew (from [homebrew-repo](https://github.com/ton-blockchain/homebrew-ton))

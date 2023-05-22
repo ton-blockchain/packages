@@ -27,10 +27,16 @@ jobs:
       - name: Push packages to official TON AUR repo (aur.archlinux.org)
         run: |
           TAG=$(git ls-remote --tags https://github.com/ton-blockchain/ton/  | tail -1 | sed -n -e 's/^.*tags\///p')
-          TAG=$(echo $TAG | sed  s'/-/./') # replace "-" with "."
+          TAG=$(echo $TAG | sed  s'/-/./')
           echo "latest TAG = $TAG"
+          
+          curl -Ls https://github.com/ton-blockchain/packages/releases/latest/download/ton-linux-x86-64.tar.gz -o ton-linux-x86-64.tar.gz
+          SHA256_AMD64=$(shasum -a 256 ton-linux-x86-64.tar.gz | cut -f 1 -d " ")
+          
           sed -i "/\\tpkgver = /c\\\tpkgver = ${TAG:1}" packages/arch/.SRCINFO
+          sed -i "/\\tsha256sums = /c\\\tsha256sums = ${SHA256_AMD64}" packages/arch/.SRCINFO
           sed -i "/pkgver=/c\pkgver=${TAG:1}" packages/arch/PKGBUILD
+          sed -i -e "s/\(sha256sums=('\).*\(')\)/sha256sums=('${SHA256_AMD64}')/g" packages/arch/PKGBUILD         
 
           git clone ssh://aur@aur.archlinux.org/ton-bin.git aur-ton
           cd aur-ton

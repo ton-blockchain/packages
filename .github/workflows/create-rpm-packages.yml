@@ -20,8 +20,8 @@ jobs:
           echo "latest TAG = $TAG"
 
           mkdir ../work; cd ../work
-          curl -L https://github.com/ton-blockchain/ton/releases/latest/download/ton-linux-arm64.zip -o ton-linux-arm64.zip
-          curl -L https://github.com/ton-blockchain/ton/releases/latest/download/ton-linux-x86_64.zip -o ton-linux-x86_64.zip
+          curl -Ls https://github.com/ton-blockchain/ton/releases/latest/download/ton-linux-arm64.zip -o ton-linux-arm64.zip
+          curl -Ls https://github.com/ton-blockchain/ton/releases/latest/download/ton-linux-x86_64.zip -o ton-linux-x86_64.zip
           unzip -qq ton-linux-arm64.zip -d ton-linux-arm64
           unzip -qq ton-linux-x86_64.zip -d ton-linux-x86_64
           rm -rf ton-linux-arm64/lib ton-linux-arm64/smartcont
