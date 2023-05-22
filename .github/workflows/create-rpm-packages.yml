@@ -15,8 +15,7 @@ jobs:
         run: |
           sudo apt install -y createrepo-c
           REPO_DIR=$PWD
-          #TAG=$(git ls-remote --tags https://github.com/ton-blockchain/ton/  | tail -1 | sed -n -e 's/^.*tags\///p')
-          TAG="v2023.05-1"
+          TAG=$(git ls-remote --tags https://github.com/ton-blockchain/ton/  | tail -1 | sed -n -e 's/^.*tags\///p')          
           TAG=$(echo $TAG | sed  s'/-/./')
           echo "latest TAG = $TAG"
 
@@ -57,8 +56,7 @@ jobs:
       # We can't rely on GH Releases for RPM because RPM repo must have a repodata/ directory and Releases don't support directories
       - name: Push latest artifacts to current rpm-repo
         run: |
-          #TAG=$(git ls-remote --tags https://github.com/ton-blockchain/ton/  | tail -1 | sed -n -e 's/^.*tags\///p')
-          TAG="v2023.05-1"
+          TAG=$(git ls-remote --tags https://github.com/ton-blockchain/ton/  | tail -1 | sed -n -e 's/^.*tags\///p')          
           echo "latest TAG $TAG"
           git config user.name "GitHub Actions Bot"
           git config user.email "<>"
