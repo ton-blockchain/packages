@@ -9,7 +9,9 @@
 
     <title>TON Windows x86-64 artifacts</title>
     <authors>TON Foundation</authors>
-    <projectUrl>https://github.com/ton-blockchain/ton</projectUrl>
+    <projectUrl>https://ton.org</projectUrl>
+    <projectSourceUrl>https://github.com/ton-blockchain/ton</projectSourceUrl>
+    <docsUrl>https://docs.ton.org</docsUrl>
     <iconUrl>https://ton.org/download/ton_symbol.svg</iconUrl>
     <licenseUrl>https://raw.githubusercontent.com/ton-blockchain/ton/master/LICENSE.LGPL</licenseUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
