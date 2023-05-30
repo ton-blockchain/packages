@@ -5,18 +5,33 @@ on: [workflow_dispatch,workflow_call]
 permissions: write-all
 
 jobs:
+  is-ready:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Check for mandatory artifacts
+        run: |
+          curl -Ls https://github.com/ton-blockchain/ton/releases/latest/download/ton-linux-arm64.zip -o ton-linux-arm64.zip
+          curl -Ls https://github.com/ton-blockchain/ton/releases/latest/download/ton-linux-x86_64.zip -o ton-linux-x86_64.zip
+          curl -Ls https://github.com/ton-blockchain/ton/releases/latest/download/ton-win-x86-64.zip -o ton-win-x86-64.zip
+          curl -Ls https://github.com/ton-blockchain/ton/releases/latest/download/ton-mac-x86-64.zip -o ton-mac-x86-64.zip
+          curl -Ls https://github.com/ton-blockchain/ton/releases/latest/download/ton-mac-arm64.zip -o ton-mac-arm64.zip
+
   rpm-create:
     uses: ./.github/workflows/create-rpm-packages.yml
     secrets: inherit
+    needs: is-ready
 
   deb-create:
     uses: ./.github/workflows/create-deb-ppa-packages.yml
     secrets: inherit
+    needs: is-ready
 
   aur-create:
     uses: ./.github/workflows/create-aur-packages.yml
     secrets: inherit
+    needs: is-ready
 
   choco-create:
     uses: ./.github/workflows/create-choco-packages.yml
     secrets: inherit
+    needs: is-ready
