@@ -14,7 +14,7 @@ jobs:
           curl -Ls https://github.com/ton-blockchain/ton/releases/latest/download/ton-linux-x86_64.zip -o ton-linux-x86_64.zip
           curl -Ls https://github.com/ton-blockchain/ton/releases/latest/download/ton-win-x86-64.zip -o ton-win-x86-64.zip
           curl -Ls https://github.com/ton-blockchain/ton/releases/latest/download/ton-mac-x86-64.zip -o ton-mac-x86-64.zip
-          curl -Ls https://github.com/ton-blockchain/ton/releases/latest/download/ton-mac-arm64.zip -o ton-mac-arm64.zip
+          curl -Ls https://github.com/ton-blockchain/ton/releases/latest/download/ton-mac-arm64.zip -o ton-mac-arm64.zi
 
   rpm-create:
     uses: ./.github/workflows/create-rpm-packages.yml
