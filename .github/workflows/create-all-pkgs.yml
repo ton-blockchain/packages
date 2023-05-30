@@ -10,11 +10,11 @@ jobs:
     steps:
       - name: Check for mandatory artifacts
         run: |
-          wget https://github.com/ton-blockchain/ton/releases/latest/download/ton-linux-arm64.zip
-          wget https://github.com/ton-blockchain/ton/releases/latest/download/ton-linux-x86_64.zip
-          wget https://github.com/ton-blockchain/ton/releases/latest/download/ton-win-x86-64.zip
-          wget https://github.com/ton-blockchain/ton/releases/latest/download/ton-mac-x86-64.zip
-          wget https://github.com/ton-blockchain/ton/releases/latest/download/ton-mac-arm64.zi
+          wget -nv https://github.com/ton-blockchain/ton/releases/latest/download/ton-linux-arm64.zip
+          wget -nv https://github.com/ton-blockchain/ton/releases/latest/download/ton-linux-x86_64.zip
+          wget -nv https://github.com/ton-blockchain/ton/releases/latest/download/ton-win-x86-64.zip
+          wget -nv https://github.com/ton-blockchain/ton/releases/latest/download/ton-mac-x86-64.zip
+          wget -nv https://github.com/ton-blockchain/ton/releases/latest/download/ton-mac-arm64.zi
 
   rpm-create:
     uses: ./.github/workflows/create-rpm-packages.yml
