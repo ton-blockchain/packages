@@ -17,7 +17,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <tags>ton blockchain</tags>
     <summary>The Open Network artifacts</summary>
-    <description><![CDATA[TON is a fully decentralized layer-1 blockchain designed by Telegram to onboard billions of users.]]></description>
+    <description><![CDATA[TON is a fully decentralized layer-1 blockchain designed by Telegram to onboard billions of users. Multiple false positive alarms from various antivirus vendors may occur. This is expected and announced at https://github.com/ton-blockchain/packages]]></description>
     <releaseNotes>https://raw.githubusercontent.com/ton-blockchain/ton/master/Changelog.md</releaseNotes>
   </metadata>
   <files>
