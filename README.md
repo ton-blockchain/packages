@@ -46,6 +46,8 @@ brew install ton
 ```
 
 ### Install via Chocolatey
+Please, be aware that multiple false positive alarms from various antivirus vendors may occur.
+This is an expected behaviour and there is no reason to worry.
 #### Windows x86-64
 ```
 choco install ton
