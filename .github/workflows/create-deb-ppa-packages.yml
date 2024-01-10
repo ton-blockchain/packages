@@ -39,19 +39,27 @@ jobs:
 
           curl -Ls https://github.com/ton-blockchain/ton/releases/latest/download/ton-linux-x86_64.zip -o ton-linux-amd64.zip          
           unzip -qq ton-linux-amd64.zip -d ton-linux-amd64
-          rm -rf ton-linux-amd64/lib ton-linux-amd64/smartcont
-          mkdir -p ton-linux-deb-amd64/{bin,lib}
+          
+          mkdir -p ton-linux-deb-amd64/{bin,lib/fift,share/ton}
+          cp -r ton-linux-amd64/smartcont ton-linux-deb-amd64/share/ton/
+          cp ton-linux-amd64/lib/* ton-linux-deb-amd64/lib/fift
+          rm -rf ton-linux-amd64/{lib,smartcont}          
+          mv ton-linux-amd64/libtonlibjson.so* ton-linux-deb-amd64/lib/
+          [ -e ton-linux-amd64/libemulator.so ] && mv ton-linux-amd64/libemulator.so ton-linux-deb-amd64/lib/
           cp ton-linux-amd64/* ton-linux-deb-amd64/bin/
-          mv ton-linux-deb-amd64/bin/libtonlibjson.so.0.5 ton-linux-deb-amd64/lib/
-          chmod 555 ton-linux-deb-amd64/{bin,lib}/* 
+          chmod -R 555 ton-linux-deb-amd64/{bin,lib,share}/* 
 
           curl -Ls https://github.com/ton-blockchain/ton/releases/latest/download/ton-linux-arm64.zip -o ton-linux-arm64.zip
           unzip -qq ton-linux-arm64.zip -d ton-linux-arm64
-          rm -rf ton-linux-arm64/lib ton-linux-arm64/smartcont
-          mkdir -p ton-linux-deb-arm64/{bin,lib}
-          cp ton-linux-arm64/* ton-linux-deb-arm64/bin/
-          mv ton-linux-deb-arm64/bin/libtonlibjson.so.0.5 ton-linux-deb-arm64/lib/
-          chmod 555 ton-linux-deb-arm64/{bin,lib}/*
+
+          mkdir -p ton-linux-deb-arm64/{bin,lib/fift,share/ton}
+          cp -r ton-linux-arm64/smartcont ton-linux-deb-arm64/share/ton/
+          cp ton-linux-arm64/lib/* ton-linux-deb-arm64/lib/fift
+          rm -rf ton-linux-arm64/{lib,smartcont}
+          mv ton-linux-arm64/libtonlibjson.so* ton-linux-deb-arm64/lib/
+          [ -e ton-linux-arm64/libemulator.so ] && mv ton-linux-arm64/libemulator.so ton-linux-deb-arm64/lib/
+          cp ton-linux-arm64/* ton-linux-deb-amd64/bin/
+          chmod -R 555 ton-linux-deb-arm64/{bin,lib,share}/* 
 
           mkdir -p both/{amd64,arm64}
           cp -R ton-linux-deb-amd64/* both/amd64/

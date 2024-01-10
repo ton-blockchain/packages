@@ -29,8 +29,10 @@ jobs:
           TAG=$(git ls-remote --tags https://github.com/ton-blockchain/ton/  | tail -1 | sed -n -e 's/^.*tags\///p')
           TAG=$(echo $TAG | sed  s'/-/./')
           echo "latest TAG = $TAG"
-          
+
+#         ton-linux-x86-64.tar.gz comes from create-rpm workflow that commits this package to the current repo
           curl -Ls https://github.com/ton-blockchain/packages/releases/latest/download/ton-linux-x86-64.tar.gz -o ton-linux-x86-64.tar.gz
+          tar -tvf ton-linux-x86-64.tar.gz
           SHA256_AMD64=$(shasum -a 256 ton-linux-x86-64.tar.gz | cut -f 1 -d " ")
           
           sed -i "/\\tpkgver = /c\\\tpkgver = ${TAG:1}" packages/arch/.SRCINFO
