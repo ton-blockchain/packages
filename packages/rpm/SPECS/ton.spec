@@ -16,18 +16,15 @@ A collection of The Open Network core software and utilities.
 %setup -q
 
 %build
-%define have_lib %( if [ -d lib ]; then echo "1" ; else echo "0"; fi )
 
 %install
-mkdir -p %{buildroot}/%{_bindir} %{buildroot}/%{_libdir}
+mkdir -p %{buildroot}/%{_bindir} %{buildroot}/%{_libdir} %{buildroot}/%{_datadir}
 
-cp -a bin/* %{buildroot}/%{_bindir}
-%if %have_lib
-cp -a lib/* %{buildroot}/%{_libdir}
-%endif
+cp -ar bin/* %{buildroot}/%{_bindir}
+cp -ar lib/* %{buildroot}/%{_libdir}
+cp -ar share/* %{buildroot}/%{_datadir}
 
 %files
 %{_bindir}/*
-%if %have_lib
 %{_libdir}/*
-%endif
+%{_datadir}/*

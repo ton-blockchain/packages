@@ -13,6 +13,7 @@ override_dh_builddeb:
 
 override_dh_install:
 	install -d debian/ton/usr
-	cp --reflink=auto -a ./${DEB_BUILD_ARCH}/bin debian/ton/usr/
-	cp --reflink=auto -a ./${DEB_BUILD_ARCH}/lib debian/ton/usr/
+	cp --reflink=auto -ar ./${DEB_BUILD_ARCH}/bin debian/ton/usr/
+	cp --reflink=auto -ar ./${DEB_BUILD_ARCH}/lib debian/ton/usr/
+	cp --reflink=auto -ar ./${DEB_BUILD_ARCH}/share debian/ton/usr/
 

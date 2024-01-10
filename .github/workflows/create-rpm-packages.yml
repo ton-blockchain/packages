@@ -13,7 +13,7 @@ jobs:
 
       - name: Create rpm packages
         run: |
-          sudo apt install -y createrepo-c
+          sudo apt install -y createrepo-c rpm
           REPO_DIR=$PWD
           TAG=$(git ls-remote --tags https://github.com/ton-blockchain/ton/  | tail -1 | sed -n -e 's/^.*tags\///p')          
           TAG=$(echo $TAG | sed  s'/-/./')
@@ -24,18 +24,25 @@ jobs:
           curl -Ls https://github.com/ton-blockchain/ton/releases/latest/download/ton-linux-x86_64.zip -o ton-linux-x86_64.zip
           unzip -qq ton-linux-arm64.zip -d ton-linux-arm64
           unzip -qq ton-linux-x86_64.zip -d ton-linux-x86_64
-          rm -rf ton-linux-arm64/{lib,smartcont}
+
+          mkdir -p ton-linux-rpm-aarch64/{bin,lib/fift,share/ton}
+          cp -r ton-linux-arm64/smartcont ton-linux-rpm-aarch64/share/ton/
+          cp ton-linux-arm64/lib/* ton-linux-rpm-aarch64/lib/fift/
+          rm -rf ton-linux-arm64/{lib,smartcont}          
+          mv ton-linux-arm64/libtonlibjson.so* ton-linux-rpm-aarch64/lib/
+          [ -e ton-linux-arm64/libemulator.so ] && mv ton-linux-arm64/libemulator.so ton-linux-rpm-aarch64/lib/
+          cp ton-linux-arm64/* ton-linux-rpm-aarch64/bin/          
+          chmod -R 555 ton-linux-rpm-aarch64/{bin,lib,share}/*
+
+          mkdir -p ton-linux-rpm-x86_64/{bin,lib/fift,share/ton}
+          cp -r ton-linux-x86_64/smartcont ton-linux-rpm-x86_64/share/ton/
+          cp ton-linux-x86_64/lib/* ton-linux-rpm-x86_64/lib/fift/
           rm -rf ton-linux-x86_64/{lib,smartcont}
-
-          mkdir -p ton-linux-rpm-aarch64/{bin,lib}
-          cp ton-linux-arm64/* ton-linux-rpm-aarch64/bin/
-          mv ton-linux-rpm-aarch64/bin/libtonlibjson.so.0.5 ton-linux-rpm-aarch64/lib/
-          chmod 555 ton-linux-rpm-aarch64/{bin,lib}/*
-
-          mkdir -p ton-linux-rpm-x86_64/{bin,lib}
+          mv ton-linux-x86_64/libtonlibjson.so* ton-linux-rpm-x86_64/lib/
+          [ -e ton-linux-x86_64/libemulator.so ] && mv ton-linux-x86_64/libemulator.so ton-linux-rpm-x86_64/lib/
           cp ton-linux-x86_64/* ton-linux-rpm-x86_64/bin/
-          mv ton-linux-rpm-x86_64/bin/libtonlibjson.so.0.5 ton-linux-rpm-x86_64/lib/
-          chmod 555 ton-linux-rpm-x86_64/{bin,lib}/*
+          chmod -R 555 ton-linux-rpm-x86_64/{bin,lib,share}/*
+
           mkdir ton-linux-x86_64-tmp
           cp -R ton-linux-rpm-x86_64/* ton-linux-x86_64-tmp        
           tar -czvf ton-linux-x86-64.tar.gz -C ton-linux-x86_64-tmp .

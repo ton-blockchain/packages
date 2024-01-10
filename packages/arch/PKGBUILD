@@ -13,13 +13,10 @@ sha256sums=('SKIP')
 
 package() {
   cd "$srcdir"
-  mkdir -p ${pkgdir}/usr/bin
-  cp -a bin/* ${pkgdir}/usr/bin
-  if [ -d lib ]; then
-    mkdir -p ${pkgdir}/usr/lib
-    cp -a lib/* ${pkgdir}/usr/lib;
-  fi
-
+  mkdir -p ${pkgdir}/usr/{bin,lib/fift,share/ton}
+  cp -a bin/* ${pkgdir}/usr/bin/
+  cp -ar share/* ${pkgdir}/usr/share/
+  cp -ar lib/* ${pkgdir}/usr/lib/
   # Fix permissions
   chmod -R go-w "${pkgdir}"
 }

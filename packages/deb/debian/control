@@ -11,4 +11,4 @@ Architecture: any
 Multi-Arch: foreign
 Depends: ${misc:Depends}, ${shlibs:Depends}
 Description: TON is a fully decentralized layer-1 blockchain designed by Telegram to onboard billions of users.
-   Sources pulled and repaced from https://github.com/ton-blockchain/ton/releases
+   Sources pulled and replaced from https://github.com/ton-blockchain/ton/releases
