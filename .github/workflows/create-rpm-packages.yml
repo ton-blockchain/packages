@@ -13,7 +13,7 @@ jobs:
 
       - name: Create rpm packages
         run: |
-          sudo apt install -y createrepo-c rpm
+          sudo apt install -y createrepo-c rpm git-lfs
           REPO_DIR=$PWD
           TAG=$(git ls-remote --tags https://github.com/ton-blockchain/ton/  | tail -1 | sed -n -e 's/^.*tags\///p')          
           TAG=$(echo $TAG | sed  s'/-/./')
@@ -73,19 +73,14 @@ jobs:
           rm -rf rpm
           cp -r ../work/packages-out/rpm-install rpm
           
-          # one-by-one, since there is a gh limit of 100 MB upload
-          git add rpm/x86_64/
-          git commit -m "create release x86_64 $TAG" || true
-          git push
-          
-          git add rpm/aarch64/
-          git commit -m "create release aarch64 $TAG" || true
-          git push
-          
-          git add rpm/repodata/
-          git commit -m "create release repodata $TAG" || true
-          git push
+          git lfs install
+          git lfs track "*.rpm"
+          git add .gitattributes
 
+          git add rpm
+          git commit -m "create RPM release$TAG" || true
+          git push
+          
           gh release create --notes "" $TAG ../work/ton-linux-x86-64.tar.gz
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
