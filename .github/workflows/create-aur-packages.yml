@@ -30,7 +30,7 @@ jobs:
           TAG=$(echo $TAG | sed  s'/-/./')
           echo "latest TAG = $TAG"
 
-#         ton-linux-x86-64.tar.gz comes from create-rpm workflow that commits this package to the current repo
+          # ton-linux-x86-64.tar.gz comes from create-rpm workflow that commits this package to the current repo
           curl -Ls https://github.com/ton-blockchain/packages/releases/latest/download/ton-linux-x86-64.tar.gz -o ton-linux-x86-64.tar.gz
           tar -tvf ton-linux-x86-64.tar.gz
           SHA256_AMD64=$(shasum -a 256 ton-linux-x86-64.tar.gz | cut -f 1 -d " ")
