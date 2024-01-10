@@ -58,7 +58,7 @@ jobs:
           rm -rf ton-linux-arm64/{lib,smartcont}
           mv ton-linux-arm64/libtonlibjson.so* ton-linux-deb-arm64/lib/
           [ -e ton-linux-arm64/libemulator.so ] && mv ton-linux-arm64/libemulator.so ton-linux-deb-arm64/lib/
-          cp ton-linux-arm64/* ton-linux-deb-amd64/bin/
+          cp ton-linux-arm64/* ton-linux-deb-arm64/bin/
           chmod -R 555 ton-linux-deb-arm64/{bin,lib,share}/* 
 
           mkdir -p both/{amd64,arm64}

@@ -29,7 +29,7 @@ jobs:
   aur-create:
     uses: ./.github/workflows/create-aur-packages.yml
     secrets: inherit
-    needs: is-ready
+    needs: rpm-create
 
   choco-create:
     uses: ./.github/workflows/create-choco-packages.yml
