@@ -17,10 +17,9 @@ tar --create --file "$RPMBUILD_PATH"/SOURCES/ton.tar.gz --transform 's,^,ton-dev
 
 rpmbuild --define "_topdir $RPMBUILD_PATH" \
          --define "_prefix /usr" \
-         --define "_exec_prefix /usr" \
-         --define "_bindir /usr/local/bin" \
-         --define "_libdir /usr/local/lib" \
-         --define "_datadir /usr/local/share" \
+         --define "_bindir /usr/bin" \
+         --define "_libdir /usr/lib" \
+         --define "_datadir /usr/share" \
          --define "releasever $TON_RELEASE" \
          --target "$PACKAGE_ARCH" \
          -v -bb "$RPM_TEMPLATE_PATH"

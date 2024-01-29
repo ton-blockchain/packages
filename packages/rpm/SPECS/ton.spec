@@ -5,7 +5,6 @@ Summary:        The Open Network
 
 License:        LGPLv2
 Source0:        ton.tar.gz
-Provides:       /usr/local/bin/create-state, /usr/local/bin/fift
 
 %global __os_install_post %{_usr}/lib/rpm/brp-compress %{nil} # disable brp-strip
 
