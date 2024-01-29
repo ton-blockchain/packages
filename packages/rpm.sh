@@ -16,8 +16,8 @@ mkdir -p "$RPMBUILD_PATH"/{BUILD,BUILDROOT,RPMS,SOURCES,SPECS,SRPMS}
 tar --create --file "$RPMBUILD_PATH"/SOURCES/ton.tar.gz --transform 's,^,ton-dev/,' -C "$NIX_RESULT_PATH" .
 
 rpmbuild --define "_topdir $RPMBUILD_PATH" \
-         --define "_prefix /usr/local" \
-         --define "_exec_prefix /usr/local" \
+         --define "_prefix /usr" \
+         --define "_exec_prefix /usr" \
          --define "_bindir /usr/local/bin" \
          --define "_libdir /usr/local/lib" \
          --define "_datadir /usr/local/share" \
