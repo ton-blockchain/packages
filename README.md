@@ -7,7 +7,7 @@ These packages are based on the latest binary artifacts https://github.com/ton-b
 ```
 sudo bash -c 'cat > /etc/yum.repos.d/ton.repo << EOF
 [ton]
-name=Ton
+name=TON
 baseurl=https://ton-blockchain.github.io/packages/rpm
 enabled=1
 type=rpm
@@ -22,12 +22,6 @@ sudo yum install -y ton
 ```
 sudo pamac build -no-confirm ton-bin
 ```
-<!-- currently unavailable since still in the review at https://community.chocolatey.org/
-### Install Windows binaries (choco)
-```
-choco install ton
-```
--->
 
 ### Install deb (apt)
 #### Debian, Ubuntu, Linux Mint...
@@ -43,6 +37,10 @@ sudo apt install ton
 ```
 brew tap ton-blockchain/ton
 brew install ton
+
+# upgrade
+brew update
+brew reinstall ton
 ```
 
 ### Install via Chocolatey

@@ -28,7 +28,8 @@ jobs:
           mkdir -p ton-linux-rpm-aarch64/{bin,lib/fift,share/ton}
           cp -r ton-linux-arm64/smartcont ton-linux-rpm-aarch64/share/ton/
           cp ton-linux-arm64/lib/* ton-linux-rpm-aarch64/lib/fift/
-          rm -rf ton-linux-arm64/{lib,smartcont}          
+          rm -rf ton-linux-arm64/{lib,smartcont}
+          rm ton-linux-arm64/{create-hardfork,create-state}
           mv ton-linux-arm64/libtonlibjson.so* ton-linux-rpm-aarch64/lib/
           [ -e ton-linux-arm64/libemulator.so ] && mv ton-linux-arm64/libemulator.so ton-linux-rpm-aarch64/lib/
           cp ton-linux-arm64/* ton-linux-rpm-aarch64/bin/          
@@ -38,6 +39,7 @@ jobs:
           cp -r ton-linux-x86_64/smartcont ton-linux-rpm-x86_64/share/ton/
           cp ton-linux-x86_64/lib/* ton-linux-rpm-x86_64/lib/fift/
           rm -rf ton-linux-x86_64/{lib,smartcont}
+          rm ton-linux-x86_64//{create-hardfork,create-state}
           mv ton-linux-x86_64/libtonlibjson.so* ton-linux-rpm-x86_64/lib/
           [ -e ton-linux-x86_64/libemulator.so ] && mv ton-linux-x86_64/libemulator.so ton-linux-rpm-x86_64/lib/
           cp ton-linux-x86_64/* ton-linux-rpm-x86_64/bin/
@@ -73,12 +75,17 @@ jobs:
           rm -rf rpm
           cp -r ../work/packages-out/rpm-install rpm
           
-          git lfs install
-          git lfs track "*.rpm"
-          git add .gitattributes
-
-          git add rpm
-          git commit -m "create RPM release$TAG" || true
+          # one-by-one, since there is a gh limit of 100 MB upload
+          git add rpm/x86_64/
+          git commit -m "add x86_64 rpm $TAG" || true
+          git push
+          
+          git add rpm/aarch64/
+          git commit -m "add aarch64 rpm $TAG" || true
+          git push
+          
+          git add rpm/repodata/
+          git commit -m "create release repodata $TAG" || true
           git push
           
           gh release create --notes "" $TAG ../work/ton-linux-x86-64.tar.gz
