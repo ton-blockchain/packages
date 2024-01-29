@@ -13,7 +13,7 @@ jobs:
 
       - name: Create rpm packages
         run: |
-          sudo apt install -y createrepo-c rpm git-lfs
+          sudo apt install -y createrepo-c rpm
           REPO_DIR=$PWD
           TAG=$(git ls-remote --tags https://github.com/ton-blockchain/ton/  | tail -1 | sed -n -e 's/^.*tags\///p')          
           TAG=$(echo $TAG | sed  s'/-/./')
