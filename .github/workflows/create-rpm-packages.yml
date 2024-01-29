@@ -33,7 +33,7 @@ jobs:
           mv ton-linux-arm64/libtonlibjson.so* ton-linux-rpm-aarch64/lib/
           [ -e ton-linux-arm64/libemulator.so ] && mv ton-linux-arm64/libemulator.so ton-linux-rpm-aarch64/lib/
           cp ton-linux-arm64/* ton-linux-rpm-aarch64/bin/          
-          chmod -R 555 ton-linux-rpm-aarch64/{bin,lib,share}/*
+          chmod -R 755 ton-linux-rpm-aarch64/{bin,lib,share}/*
 
           mkdir -p ton-linux-rpm-x86_64/{bin,lib/fift,share/ton}
           cp -r ton-linux-x86_64/smartcont ton-linux-rpm-x86_64/share/ton/
@@ -43,7 +43,7 @@ jobs:
           mv ton-linux-x86_64/libtonlibjson.so* ton-linux-rpm-x86_64/lib/
           [ -e ton-linux-x86_64/libemulator.so ] && mv ton-linux-x86_64/libemulator.so ton-linux-rpm-x86_64/lib/
           cp ton-linux-x86_64/* ton-linux-rpm-x86_64/bin/
-          chmod -R 555 ton-linux-rpm-x86_64/{bin,lib,share}/*
+          chmod -R 755 ton-linux-rpm-x86_64/{bin,lib,share}/*
 
           mkdir ton-linux-x86_64-tmp
           cp -R ton-linux-rpm-x86_64/* ton-linux-x86_64-tmp        

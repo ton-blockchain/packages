@@ -47,7 +47,7 @@ jobs:
           mv ton-linux-amd64/libtonlibjson.so* ton-linux-deb-amd64/lib/
           [ -e ton-linux-amd64/libemulator.so ] && mv ton-linux-amd64/libemulator.so ton-linux-deb-amd64/lib/
           cp ton-linux-amd64/* ton-linux-deb-amd64/bin/
-          chmod -R 555 ton-linux-deb-amd64/{bin,lib,share}/* 
+          chmod -R 755 ton-linux-deb-amd64/{bin,lib,share}/* 
 
           curl -Ls https://github.com/ton-blockchain/ton/releases/latest/download/ton-linux-arm64.zip -o ton-linux-arm64.zip
           unzip -qq ton-linux-arm64.zip -d ton-linux-arm64
@@ -59,7 +59,7 @@ jobs:
           mv ton-linux-arm64/libtonlibjson.so* ton-linux-deb-arm64/lib/
           [ -e ton-linux-arm64/libemulator.so ] && mv ton-linux-arm64/libemulator.so ton-linux-deb-arm64/lib/
           cp ton-linux-arm64/* ton-linux-deb-arm64/bin/
-          chmod -R 555 ton-linux-deb-arm64/{bin,lib,share}/* 
+          chmod -R 755 ton-linux-deb-arm64/{bin,lib,share}/* 
 
           mkdir -p both/{amd64,arm64}
           cp -R ton-linux-deb-amd64/* both/amd64/
