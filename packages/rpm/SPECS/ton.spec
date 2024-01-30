@@ -8,6 +8,8 @@ Source0:        ton.tar.gz
 Provides:       %{_bindir}/create-state, %{_bindir}/fift
 
 %global __os_install_post %{_usr}/lib/rpm/brp-compress %{nil} # disable brp-strip
+%global __provides_exclude_from %{_libdir}
+%global __requires_exclude ^(/usr/bin/create-state|/usr/bin/fift)$
 
 %description
 A collection of The Open Network core software and utilities.
