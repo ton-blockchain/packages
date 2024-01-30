@@ -2,9 +2,10 @@ Name:           ton
 Version:        dev
 Release:        %{releasever}
 Summary:        The Open Network
-
+URL:            https://ton.org
 License:        LGPLv2
 Source0:        ton.tar.gz
+Provides:       %{_bindir}/create-state, %{_bindir}/fift
 
 %global __os_install_post %{_usr}/lib/rpm/brp-compress %{nil} # disable brp-strip
 
