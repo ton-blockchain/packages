@@ -17,4 +17,9 @@ override_dh_install:
 	cp --reflink=auto -ar ./${DEB_BUILD_ARCH}/lib debian/ton/usr/local/
 	cp --reflink=auto -ar ./${DEB_BUILD_ARCH}/share debian/ton/usr/local/
 
+override_dh_shlibdeps:
+	echo Skipping shlibdeps
+
 override_dh_usrlocal:
+	echo Skipping usr/local
+

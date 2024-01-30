@@ -30,7 +30,7 @@ jobs:
           TAG=$(echo $TAG | sed  s'/-/.100/')
           DATE=$(date -R)
           VERSION=${TAG:1}
-          REVISION=1
+          REVISION=2
           echo "latest TAG = $TAG, VERSION=$VERSION, DATE=$DATE"
 
           cd packages/deb
