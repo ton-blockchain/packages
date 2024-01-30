@@ -13,8 +13,8 @@ sha256sums=('SKIP')
 
 package() {
   cd "$srcdir"
-  mkdir -p ${pkgdir}/usr/local/{bin,lib/fift,share/ton}
-  cp -a bin/* ${pkgdir}/usr/local/bin/
-  cp -ar share/* ${pkgdir}/usr/local/share/
-  cp -ar lib/* ${pkgdir}/usr/local/lib/
+  mkdir -p ${pkgdir}/usr/{bin,lib/fift,share/ton}
+  cp -a bin/* ${pkgdir}/usr/bin/
+  cp -ar share/* ${pkgdir}/usr/share/
+  cp -ar lib/* ${pkgdir}/usr/lib/
 }
