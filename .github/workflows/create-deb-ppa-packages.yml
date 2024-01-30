@@ -64,8 +64,8 @@ jobs:
           mkdir -p both/{amd64,arm64}
           cp -R ton-linux-deb-amd64/* both/amd64/
           cp -R ton-linux-deb-arm64/* both/arm64/
-          tar -czvf ton-${VERSION}.tar.gz -C both .
-          ln -s ton-${VERSION}.tar.gz ton_${VERSION}.orig.tar.gz
+          tar -czvf ton-${VERSION}-${REVISION}.tar.gz -C both .
+          ln -s ton-${VERSION}-${REVISION}.tar.gz ton_${VERSION}-${REVISION}.orig.tar.gz
 
           mkdir ton-$VERSION
 
