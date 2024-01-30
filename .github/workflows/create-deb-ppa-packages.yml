@@ -80,4 +80,4 @@ jobs:
           cat debian/{changelog,control}
 
           debuild -sa -S -kDA58A5F65D5236A0C8FD9A54AF03339AD20F1920
-          dput ppa:ton-foundation/ppa ../ton_${VERSION}-${REVISION}_source.changes
+          dput ppa:ton-foundation/ppa ../ton_${VERSION}.${REVISION}_source.changes
