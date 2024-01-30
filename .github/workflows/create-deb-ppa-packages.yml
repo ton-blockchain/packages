@@ -30,7 +30,7 @@ jobs:
           TAG=$(echo $TAG | sed  s'/-/.100/')
           DATE=$(date -R)
           VERSION=${TAG:1}
-          REVISION=2
+          REVISION=1
           echo "latest TAG = $TAG, VERSION=$VERSION, DATE=$DATE"
 
           cd packages/deb
@@ -65,22 +65,18 @@ jobs:
           cp -R ton-linux-deb-amd64/* both/amd64/
           cp -R ton-linux-deb-arm64/* both/arm64/
           
-          if [[ $REVISION -eq 1 ]]; then
-            tar -czvf ton-${VERSION}.tar.gz -C both .
-            ln -s ton-${VERSION}.tar.gz ton_${VERSION}.orig.tar.gz
-          else
-            tar -czvf ton-${VERSION}-${REVISION}.tar.gz -C both .
-            ln -s ton-${VERSION}-${REVISION}.tar.gz ton_${VERSION}.orig.tar.gz
-          fi
+          tar -czvf ton-${VERSION}.${REVISION}.tar.gz -C both .
+          ln -s ton-${VERSION}.${REVISION}.tar.gz ton_${VERSION}.${REVISION}.orig.tar.gz
 
-          mkdir ton-$VERSION
+          mkdir ton-$VERSION.${REVISION}
 
-          cd ton-$VERSION
+          cd ton-$VERSION.${REVISION}
 
           cp -R ../debian .
-          sed -i "s/REVISION/${VERSION}-${REVISION}/g" debian/changelog
-          sed -i "s/VERSION/${VERSION}/g" debian/changelog
-          sed -i "s/DATE/${DATE}/g" debian/changelog          
+          sed -i "s/REVISION/${VERSION}.${REVISION}/g" debian/changelog
+          sed -i "s/VERSION/${VERSION}.${REVISION}/g" debian/changelog
+          sed -i "s/DATE/${DATE}/g" debian/changelog
+     
           cat debian/{changelog,control}
 
           debuild -sa -S -kDA58A5F65D5236A0C8FD9A54AF03339AD20F1920
