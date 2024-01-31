@@ -30,7 +30,6 @@ jobs:
           TAG=$(echo $TAG | sed  s'/-/./')
           DATE=$(date -R)
           VERSION=${TAG:1}
-          VERSION=2024.01.4
 
           echo "latest TAG = $TAG, VERSION=$VERSION, DATE=$DATE"
 
