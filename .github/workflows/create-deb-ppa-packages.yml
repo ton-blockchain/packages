@@ -37,7 +37,7 @@ jobs:
 
           DEB_DIR=$PWD
 
-          curl -Ls https://github.com/ton-blockchain/ton/releases/latest/download/ton-linux-x86_64.zip -o ton-linux-amd64.zip          
+          curl -Ls https://github.com/ton-blockchain/ton/releases/latest/download/ton-linux-x86-64.zip -o ton-linux-amd64.zip          
           unzip -qq ton-linux-amd64.zip -d ton-linux-amd64
           
           mkdir -p ton-linux-deb-amd64/{bin,lib/fift,share/ton}
