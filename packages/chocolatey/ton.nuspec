@@ -5,7 +5,7 @@
     <id>ton</id>
     <version>2023.04</version>
     <packageSourceUrl>https://github.com/ton-blockchain/ton</packageSourceUrl>
-    <owners>neodiX</owners>
+    <owners>TON</owners>
 
     <title>TON Windows x86-64 artifacts</title>
     <authors>TON Foundation</authors>
