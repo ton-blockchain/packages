@@ -39,7 +39,7 @@ jobs:
 
           curl -Ls https://github.com/ton-blockchain/ton/releases/latest/download/ton-linux-x86_64.zip -o ton-linux-amd64.zip          
           unzip -qq ton-linux-amd64.zip -d ton-linux-amd64
-          
+          chmod -R 755 ton-linux-amd64
           mkdir -p ton-linux-deb-amd64/{bin,lib/fift,share/ton}
           cp -r ton-linux-amd64/smartcont ton-linux-deb-amd64/share/ton/
           cp ton-linux-amd64/lib/* ton-linux-deb-amd64/lib/fift
@@ -51,7 +51,7 @@ jobs:
 
           curl -Ls https://github.com/ton-blockchain/ton/releases/latest/download/ton-linux-arm64.zip -o ton-linux-arm64.zip
           unzip -qq ton-linux-arm64.zip -d ton-linux-arm64
-
+          chmod -R 755 ton-linux-arm64
           mkdir -p ton-linux-deb-arm64/{bin,lib/fift,share/ton}
           cp -r ton-linux-arm64/smartcont ton-linux-deb-arm64/share/ton/
           cp ton-linux-arm64/lib/* ton-linux-deb-arm64/lib/fift

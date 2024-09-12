@@ -24,7 +24,7 @@ jobs:
           curl -Ls https://github.com/ton-blockchain/ton/releases/latest/download/ton-linux-x86_64.zip -o ton-linux-x86_64.zip
           unzip -qq ton-linux-arm64.zip -d ton-linux-arm64
           unzip -qq ton-linux-x86_64.zip -d ton-linux-x86_64
-
+          chmod -R 755 ton-linux-arm64 ton-linux-x86_64
           mkdir -p ton-linux-rpm-aarch64/{bin,lib/fift,share/ton}
           cp -r ton-linux-arm64/smartcont ton-linux-rpm-aarch64/share/ton/
           cp ton-linux-arm64/lib/* ton-linux-rpm-aarch64/lib/fift/
