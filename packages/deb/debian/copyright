@@ -1,1 +1,7 @@
-Copyright (c) 2024 TON Foundation. All rights reserved.
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: ton
+Upstream-Contact: <neodix@ton.org>
+Source: <https://github.com/ton-blockchain/ton>
+
+Files: *
+Copyright: 2025 TON Core Technologies
