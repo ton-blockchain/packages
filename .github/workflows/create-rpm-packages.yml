@@ -29,7 +29,7 @@ jobs:
           cp -r ton-linux-arm64/smartcont ton-linux-rpm-aarch64/share/ton/
           cp ton-linux-arm64/lib/* ton-linux-rpm-aarch64/lib/fift/
           rm -rf ton-linux-arm64/{lib,smartcont}
-          rm -f ton-linux-arm64/{create-hardfork,rldp-http-proxy}
+          rm -f ton-linux-arm64/{create-hardfork,rldp-http-proxy,storage-cli}
           mv ton-linux-arm64/libtonlibjson.so* ton-linux-rpm-aarch64/lib/
           [ -e ton-linux-arm64/libemulator.so ] && mv ton-linux-arm64/libemulator.so ton-linux-rpm-aarch64/lib/
           cp ton-linux-arm64/* ton-linux-rpm-aarch64/bin/          
