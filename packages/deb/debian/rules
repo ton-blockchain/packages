@@ -1,22 +1,42 @@
 #!/usr/bin/make -f
-export DH_VERBOSE = 1
 
-DEB_BUILD_ARCH ?=$(shell dpkg-architecture -qDEB_BUILD_ARCH)
+export DEB_BUILD_MAINT_OPTIONS = hardening=+all
 
 %:
 	dh $@
 
-override_dh_strip:
+override_dh_auto_configure:
+	mkdir -p build-deb
+	ARCH=$$(uname -m); \
+	if [ "$$ARCH" = "x86_64" ]; then \
+		echo "skip"; \
+	elif [ "$$ARCH" = "aarch64" ]; then \
+		FLAGS="$(filter-out -march=native,$(CFLAGS)) -mcpu=arm64" \
+	else \
+		FLAGS="-O2"; \
+	fi; \
+	cd build-deb && cmake \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DCMAKE_C_COMPILER=clang \
+		-DCMAKE_CXX_COMPILER=clang++ \
+		-DCMAKE_C_FLAGS="$$FLAGS" \
+		-DCMAKE_CXX_FLAGS="$$FLAGS" \
+		-GNinja ../debian/source
 
-override_dh_builddeb:
-	dh_builddeb -- -Zxz -Sextreme -z9
+override_dh_auto_build:
+	ninja -C build-deb storage-daemon storage-daemon-cli fift func tolk tonlib tonlibjson tonlib-cli validator-engine lite-client validator-engine-console blockchain-explorer generate-random-id dht-server http-proxy rldp-http-proxy adnl-proxy create-state emulator proxy-liteserver
 
-override_dh_install:
-	install -d debian/ton/usr
-	cp --reflink=auto -ar ./${DEB_BUILD_ARCH}/bin debian/ton/usr
-	cp --reflink=auto -ar ./${DEB_BUILD_ARCH}/lib debian/ton/usr
-	cp --reflink=auto -ar ./${DEB_BUILD_ARCH}/share debian/ton/usr
+override_dh_auto_clean:
+	dh_auto_clean
+	rm -rf build-deb
 
-override_dh_shlibdeps:
-	echo Skipping shlibdeps
+override_dh_dwz:
+	echo "Skipping dh_dwz due to incompatible debug sections"
 
+override_dh_auto_install:
+	dh_auto_install
+	for f in $(find build-deb -type f); do \
+		if file "$$f" | grep -q "ELF"; then \
+			strip --strip-unneeded "$$f"; \
+		fi; \
+	done

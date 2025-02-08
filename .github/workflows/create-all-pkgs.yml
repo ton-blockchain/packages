@@ -22,7 +22,7 @@ jobs:
     needs: is-ready
 
   deb-create:
-    uses: ./.github/workflows/create-deb-ppa-packages.yml
+    uses: ./.github/workflows/create-deb-packages.yml
     secrets: inherit
     needs: is-ready
 

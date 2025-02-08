@@ -1,0 +1,52 @@
+name: Create deb packages
+on: [workflow_dispatch,workflow_call]
+
+permissions: write-all
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        distro: [focal, jammy, noble, oracular, plucky]
+    runs-on: ubuntu-22.04
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Import GPG Key
+        uses: crazy-max/ghaction-import-gpg@v1
+        env:
+          GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+          PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+
+      - name: Install system libraries
+        run: |
+          sudo apt install -y equivs build-essential devscripts debhelper dh-make dput debhelper-compat \
+          cmake ninja-build libsecp256k1-dev libmicrohttpd-dev libsodium-dev libjemalloc-dev clang
+
+      - name: Create deb packages
+        run: |
+          REPO_DIR=$PWD
+          TAG=$(git ls-remote --tags https://github.com/ton-blockchain/ton/  | tail -1 | sed -n -e 's/^.*tags\///p')
+          TAG=$(echo $TAG | sed  s'/-/./')
+          DATE=$(date -R)
+          VERSION=${TAG:1}.${{ matrix.distro }}
+          echo $VERSION
+
+          cd packages/deb
+          
+          git clone --recursive https://github.com/ton-blockchain/ton.git debian/source          
+          rm -rf debian/source/example
+          rm -rf debian/source/third-party/rocksdb/docs
+          rm -rf debian/source/.git/modules/third-party/rocksdb/objects/pack/*
+          sed -i "s/REVISION/${VERSION}/g" debian/changelog
+          sed -i "s/VERSION/${VERSION}/g" debian/changelog
+          sed -i "s/DATE/${DATE}/g" debian/changelog
+          sed -i "s/DISTRO/${{ matrix.distro }}/g" debian/changelog
+          
+          dpkg-buildpackage -S -kDA58A5F65D5236A0C8FD9A54AF03339AD20F1920 -sa -rfakeroot -tc
+          dput ppa:ton-foundation/ppa ../ton_${VERSION}_source.changes
+
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
