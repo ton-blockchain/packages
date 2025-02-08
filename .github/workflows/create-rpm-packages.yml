@@ -77,10 +77,12 @@ jobs:
           cp -r ../work/packages-out/rpm-install rpm
           
           # one-by-one, since there is a gh limit of 100 MB upload
+          ls -larth rpm/x86_64/ 
           git add rpm/x86_64/
           git commit -m "add x86_64 rpm $TAG" || true
           git push
           
+          ls -larth rpm/aarch64/ 
           git add rpm/aarch64/
           git commit -m "add aarch64 rpm $TAG" || true
           git push
