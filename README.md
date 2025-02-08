@@ -222,4 +222,5 @@ sudo yum install -y ton
 #### Manjaro, RebornOS, Arch Linux... (x86-64, aarch64)
 ```
 sudo pamac build -no-confirm ton-bin
+
 ```
