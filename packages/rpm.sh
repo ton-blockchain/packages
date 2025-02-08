@@ -13,7 +13,7 @@ RPM_INSTALL_PATH="$BUILD_PATH"/rpm-install
 TON_RELEASE=$5
 
 mkdir -p "$RPMBUILD_PATH"/{BUILD,BUILDROOT,RPMS,SOURCES,SPECS,SRPMS}
-gzip -9 < "$NIX_RESULT_PATH" | tar --create --file "$RPMBUILD_PATH"/SOURCES/ton.tar.gz --transform 's,^,ton-dev/,' -C "$NIX_RESULT_PATH" .
+tar --create --file "$RPMBUILD_PATH"/SOURCES/ton.tar.gz --transform 's,^,ton-dev/,' -C "$NIX_RESULT_PATH" .
 
 rpmbuild --define "_topdir $RPMBUILD_PATH" \
          --define "_prefix /usr" \
