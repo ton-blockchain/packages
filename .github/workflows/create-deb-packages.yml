@@ -8,7 +8,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        distro: [focal, jammy, noble, oracular, plucky]
+        distro: [jammy, noble, oracular, plucky]
     runs-on: ubuntu-22.04
 
     steps:
