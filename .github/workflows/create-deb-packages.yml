@@ -22,6 +22,7 @@ jobs:
 
       - name: Install system libraries
         run: |
+          sudo apt update
           sudo apt install -y equivs build-essential devscripts debhelper dh-make dput debhelper-compat \
           cmake ninja-build libsecp256k1-dev libmicrohttpd-dev libsodium-dev libjemalloc-dev clang libgsl-dev libblas-dev libgslcblas0
 
