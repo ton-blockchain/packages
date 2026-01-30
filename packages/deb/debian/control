@@ -11,6 +11,10 @@ Build-Depends: debhelper-compat (= 12),
                libjemalloc-dev,
 	           clang-21,
 	           pkg-config
+	           pkg-config,
+	           libgsl-dev,
+	           libblas-dev,
+	           libgslcblas0
 Standards-Version: 4.4.1
 Homepage: https://ton.org
 

@@ -8,7 +8,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        distro: [jammy, noble, oracular, plucky]
+        distro: [jammy, noble, plucky]
     runs-on: ubuntu-22.04
 
     steps:
@@ -22,8 +22,9 @@ jobs:
 
       - name: Install system libraries
         run: |
+          sudo apt update
           sudo apt install -y equivs build-essential devscripts debhelper dh-make dput debhelper-compat \
-          cmake ninja-build libmicrohttpd-dev libjemalloc-dev clang
+          cmake ninja-build libmicrohttpd-dev libjemalloc-dev clang libgsl-dev libblas-dev libgslcblas0
 
       - name: Create deb packages
         run: |
