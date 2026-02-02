@@ -6,8 +6,6 @@ Build-Depends: debhelper-compat (= 12),
                git,
                cmake,
                ninja-build,
-               zlib1g-dev,
-               libmicrohttpd-dev,
                libjemalloc-dev,
 	           clang-21,
 	           pkg-config

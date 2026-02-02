@@ -24,7 +24,7 @@ jobs:
         run: |
           sudo apt update
           sudo apt install -y equivs build-essential devscripts debhelper dh-make dput debhelper-compat \
-          cmake ninja-build libmicrohttpd-dev libjemalloc-dev clang libgsl-dev libblas-dev libgslcblas0
+          cmake ninja-build libjemalloc-dev clang libgsl-dev libblas-dev libgslcblas0
 
       - name: Create deb packages
         run: |
