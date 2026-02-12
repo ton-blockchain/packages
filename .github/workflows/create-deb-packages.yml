@@ -20,11 +20,17 @@ jobs:
           GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
           PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
 
+      - name: Install clang-21
+        run: |
+          wget https://apt.llvm.org/llvm.sh
+          chmod +x llvm.sh
+          sudo ./llvm.sh 21 clang
+
       - name: Install system libraries
         run: |
           sudo apt update
           sudo apt install -y equivs build-essential devscripts debhelper dh-make dput debhelper-compat \
-          cmake ninja-build libjemalloc-dev clang libgsl-dev libblas-dev libgslcblas0
+          cmake ninja-build libjemalloc-dev libgsl-dev libblas-dev libgslcblas0
 
       - name: Create deb packages
         run: |
