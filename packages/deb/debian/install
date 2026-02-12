@@ -1,10 +1,7 @@
 build-deb/lite-client/lite-client usr/bin
 build-deb/crypto/fift usr/bin
 build-deb/crypto/func usr/bin
-build-deb/crypto/tlbc usr/bin
-build-deb/crypto/create-state usr/bin
 build-deb/tolk/tolk usr/bin
-build-deb/tonlib/tonlib-cli usr/bin
 build-deb/blockchain-explorer/blockchain-explorer usr/bin
 build-deb/dht-server/dht-server usr/bin
 build-deb/utils/generate-random-id usr/bin

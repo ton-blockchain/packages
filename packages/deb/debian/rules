@@ -24,7 +24,7 @@ override_dh_auto_configure:
 		-GNinja ../debian/source
 
 override_dh_auto_build:
-	ninja -C build-deb storage-daemon storage-daemon-cli fift func tolk tonlib tonlibjson tonlib-cli validator-engine lite-client validator-engine-console blockchain-explorer generate-random-id dht-server emulator
+	ninja -C build-deb fift func tolk tonlib tonlibjson validator-engine lite-client validator-engine-console blockchain-explorer generate-random-id dht-server emulator
 
 override_dh_auto_clean:
 	dh_auto_clean
