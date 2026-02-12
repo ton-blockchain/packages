@@ -5,15 +5,9 @@ build-deb/crypto/tlbc usr/bin
 build-deb/crypto/create-state usr/bin
 build-deb/tolk/tolk usr/bin
 build-deb/tonlib/tonlib-cli usr/bin
-build-deb/adnl/adnl-proxy usr/bin
 build-deb/blockchain-explorer/blockchain-explorer usr/bin
-build-deb/http/http-proxy usr/bin
-build-deb/rldp-http-proxy/rldp-http-proxy usr/bin
 build-deb/dht-server/dht-server usr/bin
 build-deb/utils/generate-random-id usr/bin
-build-deb/utils/proxy-liteserver usr/bin
-build-deb/storage/storage-daemon/storage-daemon usr/bin
-build-deb/storage/storage-daemon/storage-daemon-cli usr/bin
 build-deb/validator-engine/validator-engine usr/bin
 build-deb/validator-engine-console/validator-engine-console usr/bin
 build-deb/tonlib/libtonlibjson.so.0.5 usr/lib
