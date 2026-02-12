@@ -8,7 +8,6 @@ Build-Depends: debhelper-compat (= 12),
                ninja-build,
                libjemalloc-dev,
 	           clang-21,
-	           pkg-config
 	           pkg-config,
 	           libgsl-dev,
 	           libblas-dev,
