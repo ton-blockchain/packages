@@ -5,7 +5,7 @@ Maintainer: neodix <neodix@ton.org>
 Build-Depends: debhelper-compat (= 12),
                git,
                cmake,
-               clang-21 | clang,
+               clang-21,
                ninja-build,
                libjemalloc-dev,
 	           pkg-config,

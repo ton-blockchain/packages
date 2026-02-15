@@ -35,7 +35,7 @@ jobs:
       - name: Create deb packages
         run: |
           REPO_DIR=$PWD
-          TAG=2026.03
+          TAG=2026.04
           TAG=$(echo $TAG | sed  s'/-/./')
           DATE=$(date -R)
           VERSION=${TAG:1}.${{ matrix.distro }}
