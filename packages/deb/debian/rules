@@ -1,8 +1,8 @@
 #!/usr/bin/make -f
 
 export DEB_BUILD_MAINT_OPTIONS = hardening=+all
-export CC = clang-21
-export CXX = clang++-21
+export CC = clang
+export CXX = clang++
 
 %:
 	dh $@
@@ -17,10 +17,12 @@ override_dh_auto_configure:
 	else \
 		FLAGS="-O2"; \
 	fi; \
+	CC_BIN=$$(command -v clang-21 || command -v clang); \
+	CXX_BIN=$$(command -v clang++-21 || command -v clang++); \
 	cd build-deb && cmake \
 		-DCMAKE_BUILD_TYPE=Release \
-		-DCMAKE_C_COMPILER=/usr/bin/clang-21 \
-		-DCMAKE_CXX_COMPILER=/usr/bin/clang++-21 \
+		-DCMAKE_C_COMPILER="$$CC_BIN" \
+		-DCMAKE_CXX_COMPILER="$$CXX_BIN" \
 		-DCMAKE_C_FLAGS="$$FLAGS" \
 		-DCMAKE_CXX_FLAGS="$$FLAGS" \
 		-GNinja ../debian/source
