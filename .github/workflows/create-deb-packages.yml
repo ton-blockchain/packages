@@ -26,6 +26,11 @@ jobs:
           chmod +x llvm.sh
           sudo ./llvm.sh 21 clang
 
+#      - name: Install dput.cf
+#        run: |
+#          cp .dput.cf ~/.dput.cf
+#          cat ~/.dput.cf
+
       - name: Install system libraries
         run: |
           sudo apt update
@@ -53,7 +58,15 @@ jobs:
           sed -i "s/DISTRO/${{ matrix.distro }}/g" debian/changelog
           
           dpkg-buildpackage -S -kDA58A5F65D5236A0C8FD9A54AF03339AD20F1920 -sa -rfakeroot -tc
-          dput ppa:ton-foundation/ppa ../ton_${VERSION}_source.changes
+
+      - name: Upload to Launchpad via SFTP
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.4 # Or use sftp command directly
+        with:
+          username: ton-foundation
+          server: uploads.launchpad.net
+          ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
+          local_path: 'packages/*.changes'
+          remote_path: '~/ppa'
 
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
