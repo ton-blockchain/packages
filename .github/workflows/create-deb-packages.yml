@@ -38,6 +38,9 @@ jobs:
         run: ssh-keyscan ppa.launchpad.net >> ~/.ssh/known_hosts
         shell: bash
 
+      - name: Install paramiko
+        run: pip install paramiko
+
       - name: Install dput.cf
         run: |
           cp .dput.cf ~/.dput.cf
