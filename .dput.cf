@@ -1,6 +1,6 @@
-[ton-foundation]
+[ton]
 fqdn = ppa.launchpad.net
 method = sftp
-incoming = ~ton-foundation/ubuntu/ton/
+incoming = ~ton-foundation/ppa
 login = ton-foundation
 allow_unsigned_uploads = 0
