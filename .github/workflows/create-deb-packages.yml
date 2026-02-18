@@ -60,22 +60,13 @@ jobs:
           dpkg-buildpackage -S -kDA58A5F65D5236A0C8FD9A54AF03339AD20F1920 -sa -rfakeroot -tc
 
       - name: Upload to Launchpad via SFTP
-        uses: milanmk/actions-file-deployer@master
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.6
         with:
-          remote-protocol: "sftp"
-          remote-host: "ppa.launchpad.net"
-          remote-user: "ton-foundation"
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-          local-path: "packages/*.changes"
-          remote-path: "/"
-
-#        uses: wlixcc/SFTP-Deploy-Action@v1.2.4 # Or use sftp command directly
-#        with:
-#          username: ton-foundation
-#          server: ppa.launchpad.net
-#          ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
-#          local_path: 'packages/*.changes'
-#          remote_path: '.'
+          username: ton-foundation
+          server: ppa.launchpad.net
+          ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
+          local_path: 'packages/*.changes'
+          remote_path: '/'
 
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
