@@ -63,7 +63,7 @@ jobs:
         uses: wlixcc/SFTP-Deploy-Action@v1.2.4 # Or use sftp command directly
         with:
           username: ton-foundation
-          server: uploads.launchpad.net
+          server: ppa.launchpad.net
           ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
           local_path: 'packages/*.changes'
           remote_path: '~/ppa'
