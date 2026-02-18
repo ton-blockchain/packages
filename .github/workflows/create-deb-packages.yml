@@ -26,10 +26,22 @@ jobs:
           chmod +x llvm.sh
           sudo ./llvm.sh 21 clang
 
-#      - name: Install dput.cf
-#        run: |
-#          cp .dput.cf ~/.dput.cf
-#          cat ~/.dput.cf
+      # Set up the SSH agent with the private key from secrets
+      - name: Setup SSH agent
+        uses: webfactory/ssh-agent@v0.9.1
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      # Add the host's key to known_hosts to prevent 'Host key verification failed' errors
+      # Replace 'your-host.com' with the actual hostname or IP
+      - name: Add remote host key
+        run: ssh-keyscan ppa.launchpad.net >> ~/.ssh/known_hosts
+        shell: bash
+
+      - name: Install dput.cf
+        run: |
+          cp .dput.cf ~/.dput.cf
+          cat ~/.dput.cf
 
       - name: Install system libraries
         run: |
@@ -58,15 +70,4 @@ jobs:
           sed -i "s/DISTRO/${{ matrix.distro }}/g" debian/changelog
           
           dpkg-buildpackage -S -kDA58A5F65D5236A0C8FD9A54AF03339AD20F1920 -sa -rfakeroot -tc
-
-      - name: Upload to Launchpad via SFTP
-        uses: wlixcc/SFTP-Deploy-Action@v1.2.6
-        with:
-          username: ton-foundation
-          server: ppa.launchpad.net
-          ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
-          local_path: 'packages/*.changes'
-          remote_path: '/'
-
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          dput ton-foundation ../ton_${VERSION}_source.changes
